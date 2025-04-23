@@ -1,5 +1,6 @@
 package com.logrex.patient_management.patient_DTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
 
 
@@ -20,7 +21,7 @@ public class LabResultDTO {
     @NotBlank(message = "Performing laboratory is required")
     private String performingLaboratory;
 
-
+    @JsonIgnore
     private PatientDTO patient;
 
     public LabResultDTO() {

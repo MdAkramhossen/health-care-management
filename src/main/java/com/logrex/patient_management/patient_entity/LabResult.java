@@ -28,4 +28,73 @@ public class LabResult {
     @ManyToOne
     @JoinColumn(name = "patient_id")
     private Patient patient;
+
+    public LabResult() {
+    }
+
+    public LabResult(Long id, String testName, String resultValues, String referenceRange, String orderingProvider, String performingLaboratory, Patient patient) {
+        this.id = id;
+        this.testName = testName;
+        this.resultValues = resultValues;
+        this.referenceRange = referenceRange;
+        this.orderingProvider = orderingProvider;
+        this.performingLaboratory = performingLaboratory;
+        this.patient = patient;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTestName() {
+        return testName;
+    }
+
+    public void setTestName(String testName) {
+        this.testName = testName;
+    }
+
+    public String getResultValues() {
+        return resultValues;
+    }
+
+    public void setResultValues(String resultValues) {
+        this.resultValues = resultValues;
+    }
+
+    public String getReferenceRange() {
+        return referenceRange;
+    }
+
+    public void setReferenceRange(String referenceRange) {
+        this.referenceRange = referenceRange;
+    }
+
+    public String getOrderingProvider() {
+        return orderingProvider;
+    }
+
+    public void setOrderingProvider(String orderingProvider) {
+        this.orderingProvider = orderingProvider;
+    }
+
+    public String getPerformingLaboratory() {
+        return performingLaboratory;
+    }
+
+    public void setPerformingLaboratory(String performingLaboratory) {
+        this.performingLaboratory = performingLaboratory;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
 }
