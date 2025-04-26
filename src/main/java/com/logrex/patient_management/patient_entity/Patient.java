@@ -17,7 +17,6 @@ public class Patient {
     @Column(name = "full_name" , nullable = false)
     private String fullName;
 
-
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
@@ -32,15 +31,14 @@ public class Patient {
     @Column(nullable = false)
     private int age;
 
-
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Allergy> allergies;
 
     @OneToMany(mappedBy = "patient",cascade = CascadeType.ALL, orphanRemoval = true)
-  private  List<Diagnosis> diagnoses ;
+    private  List<Diagnosis> diagnoses ;
 
-  @OneToOne(mappedBy = "patient",cascade = CascadeType.ALL, orphanRemoval = true)
-  private  LifeStyleHistory lifeStyleHistory;
+      @OneToOne(mappedBy = "patient",cascade = CascadeType.ALL, orphanRemoval = true)
+      private  LifeStyleHistory lifeStyleHistory;
 
   @ManyToMany
   @JoinTable(name = "patient_vaccine"

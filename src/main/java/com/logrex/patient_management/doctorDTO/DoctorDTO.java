@@ -1,6 +1,10 @@
 package com.logrex.patient_management.doctorDTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.logrex.patient_management.appointment_DTO.AppointmentDTO;
 import com.logrex.patient_management.appointment_entity.Appointment;
+import com.logrex.patient_management.patient_DTO.PatientDTO;
+import com.logrex.patient_management.patient_DTO.PrescriptionDTO;
 
 import java.util.List;
 
@@ -15,11 +19,14 @@ public class DoctorDTO {
     private String hospitalAffiliation;
     private String availabilityStatus;
     private String profilePicture;
-  private List<Appointment> appointments;
+    @JsonIgnore
+    private List<AppointmentDTO> appointmentDTOs;
+    @JsonIgnore
+    private List<PrescriptionDTO> prescriptions;
     public DoctorDTO() {
     }
 
-    public DoctorDTO(Long doctorId, String fullName, String degrees, String certifications, String licenseNumber, String specialization, String hospitalAffiliation, String availabilityStatus, String profilePicture) {
+    public DoctorDTO(Long doctorId, String fullName, String degrees, String certifications, String licenseNumber, String specialization, String hospitalAffiliation, String availabilityStatus, String profilePicture, List<AppointmentDTO> appointmentDTOs, List<PrescriptionDTO> prescriptions) {
         this.doctorId = doctorId;
         this.fullName = fullName;
         this.degrees = degrees;
@@ -29,19 +36,8 @@ public class DoctorDTO {
         this.hospitalAffiliation = hospitalAffiliation;
         this.availabilityStatus = availabilityStatus;
         this.profilePicture = profilePicture;
-    }
-
-    public DoctorDTO(Long doctorId, String fullName, String degrees, String certifications, String licenseNumber, String specialization, String hospitalAffiliation, String availabilityStatus, String profilePicture, List<Appointment> appointments) {
-        this.doctorId = doctorId;
-        this.fullName = fullName;
-        this.degrees = degrees;
-        this.certifications = certifications;
-        this.licenseNumber = licenseNumber;
-        this.specialization = specialization;
-        this.hospitalAffiliation = hospitalAffiliation;
-        this.availabilityStatus = availabilityStatus;
-        this.profilePicture = profilePicture;
-        this.appointments = appointments;
+        this.appointmentDTOs = appointmentDTOs;
+        this.prescriptions = prescriptions;
     }
 
     public Long getDoctorId() {
@@ -116,11 +112,19 @@ public class DoctorDTO {
         this.profilePicture = profilePicture;
     }
 
-    public List<Appointment> getAppointments() {
-        return appointments;
+    public List<AppointmentDTO> getAppointmentDTOs() {
+        return appointmentDTOs;
     }
 
-    public void setAppointments(List<Appointment> appointments) {
-        this.appointments = appointments;
+    public void setAppointmentDTOs(List<AppointmentDTO> appointmentDTOs) {
+        this.appointmentDTOs = appointmentDTOs;
+    }
+
+    public List<PrescriptionDTO> getPrescriptions() {
+        return prescriptions;
+    }
+
+    public void setPrescriptions(List<PrescriptionDTO> prescriptions) {
+        this.prescriptions = prescriptions;
     }
 }

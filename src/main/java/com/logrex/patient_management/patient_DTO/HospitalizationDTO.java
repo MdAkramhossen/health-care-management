@@ -1,5 +1,7 @@
 package com.logrex.patient_management.patient_DTO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
@@ -9,7 +11,7 @@ import java.util.Date;
 
 public class HospitalizationDTO {
     private Long id;
-
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @NotNull(message = "Admission date is required")
     @PastOrPresent(message = "Admission date must be in the past or present")
     private Date admissionDate;
@@ -19,14 +21,12 @@ public class HospitalizationDTO {
 
     @NotBlank(message = "Reason for hospitalization is required")
     private String reasonForHospitalization;
-
     private String outcomeOrComplications;
     private String observations;
     private String referredBy;
     private String referredTo;
     private String reasonForReferral;
-
-
+     @JsonIgnore
     private PatientDTO patient;
 
     public HospitalizationDTO() {

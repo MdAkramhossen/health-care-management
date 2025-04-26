@@ -32,7 +32,6 @@ public class PatientDTO {
 
     private List<AllergyDTO> allergies;
     private List<DiagnosisDTO> diagnoses;
-
     private LifeStyleHistoryDTO lifeStyleHistory;
     private List<VaccinationRecordDTO> vaccinationRecords;
     private List<ChronicConditionsDTO> chronicConditions;

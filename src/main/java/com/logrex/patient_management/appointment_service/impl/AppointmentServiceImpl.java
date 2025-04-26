@@ -41,9 +41,9 @@ public class AppointmentServiceImpl implements AppointmentService {
         this.doctorRepository = doctorRepository;
     }
 /////////************** here i have to change exception of all not found resources*********************
-    @Override
-    @Transactional
-    public AppointmentDTO createAppointment(AppointmentDTO dto) {
+@Transactional
+@Override
+public AppointmentDTO createAppointment(AppointmentDTO dto) {
 
         Appointment appointment = new Appointment();
         Long patientID = 2L;
@@ -73,7 +73,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         return  modelMapper.map(appointment, AppointmentDTO.class);
     }
-
+    @Transactional
     @Override
     public AppointmentDTO updateAppointment(Long appointmentId, AppointmentDTO dto) {
         Appointment existing = appointmentRepository.findById(appointmentId)
@@ -85,38 +85,38 @@ public class AppointmentServiceImpl implements AppointmentService {
        appointmentRepository.save(appointment);
        return modelMapper.map(appointment, AppointmentDTO.class);
     }
-
+    @Transactional
     @Override
     public void deleteAppointment(Long appointmentId) {
         appointmentRepository.deleteById(appointmentId);
     }
-
+    @Transactional
     @Override
     public AppointmentDTO getAppointmentById(Long appointmentId) {
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new RuntimeException("Appointment not found"));
         return modelMapper.map(appointment, AppointmentDTO.class);
     }
-
+    @Transactional
     @Override
     public List<AppointmentDTO> getAllAppointments() {
      List<Appointment> appointments = appointmentRepository.findAll();
      return appointments.stream().map(appointment -> modelMapper.map(appointment, AppointmentDTO.class)).collect(Collectors.toList());
     }
-
+    @Transactional
     @Override
     public List<AppointmentDTO> getAppointmentsByStatus(AppointmentStatus status) {
         List<Appointment> appointments= appointmentRepository.findByStatus(status);
       return appointments.stream().map(appointment -> modelMapper.map(appointment, AppointmentDTO.class)).collect(Collectors.toList());
     }
 
-
+    @Transactional
     @Override
     public List<AppointmentDTO> getAppointmentsByDateRange(ZonedDateTime start, ZonedDateTime end) {
         List<Appointment> appointments= appointmentRepository.findByStartTimeBetween(start, end);
        return appointments.stream().map(appointment -> modelMapper.map(appointment, AppointmentDTO.class)).collect(Collectors.toList());
     }
-
+    @Transactional
     @Override
     public void cancelAppointment(Long appointmentId, String reason) {
         Appointment appointment = appointmentRepository.findById(appointmentId)
@@ -133,7 +133,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
          return false;
     }
-
+    @Transactional
     @Override
     public List<PatientDTO> getPatientsByDoctorId(Long doctorId) {
         return appointmentRepository.findDistinctByDoctorId(doctorId).stream().map(appointment -> modelMapper.map(appointment, PatientDTO.class)).collect(Collectors.toList());
