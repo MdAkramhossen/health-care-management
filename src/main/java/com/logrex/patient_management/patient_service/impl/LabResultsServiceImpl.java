@@ -1,5 +1,4 @@
 package com.logrex.patient_management.patient_service.impl;
-
 import com.logrex.patient_management.exception.ResourceNotFoundException;
 import com.logrex.patient_management.patient_DTO.LabResultDTO;
 import com.logrex.patient_management.patient_entity.LabResult;
@@ -10,7 +9,6 @@ import com.logrex.patient_management.patient_service.LabResultsService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,6 +44,7 @@ public class LabResultsServiceImpl implements LabResultsService {
     @Transactional
     @Override
     public LabResultDTO updateLabResultForPatient(Long labResultId, LabResultDTO labResultDTO) {
+
        // ********* i will get patient id that from security context*************
         Patient patient= patientRepo.findById(2L).orElseThrow( ()-> new ResourceNotFoundException("get","patient does not exist by the id",2L));
         LabResult labResult = labResultsRepo.findById(labResultId).orElseThrow(()-> new ResourceNotFoundException("get","lab result does not exist by the id",labResultId));
@@ -63,6 +62,7 @@ public class LabResultsServiceImpl implements LabResultsService {
   @Transactional
     @Override
     public void deleteLabResultFromPatient(Long labResultId) {
+
         // ********* i will get patient id that from security context*************
         Patient patient= patientRepo.findById(2L).orElseThrow( ()-> new ResourceNotFoundException("get","patient does not exist by the id",2L));
         LabResult labResult = labResultsRepo.findById(labResultId).orElseThrow(()-> new ResourceNotFoundException("get","lab result does not exist by the id",labResultId));

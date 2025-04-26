@@ -8,6 +8,7 @@ import com.logrex.patient_management.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -27,13 +28,13 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Autowired
     private ModelMapper modelMapper;
-
+    @Transactional
     @Override
     public DoctorDTO getDoctorById(Long id) {
         Doctor doctor = doctorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Doctor not found", "id", id));
         return modelMapper.map(doctor, DoctorDTO.class);
     }
-
+    @Transactional
     @Override
     public DoctorDTO updateDoctor(Long id, DoctorDTO doctorDTO) {
         Doctor doctor = doctorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Doctor not found", "id", id));
@@ -56,7 +57,7 @@ public class DoctorServiceImpl implements DoctorService {
         doctorRepository.save(doctor);
         return "Doctor availability updated to " + status;
     }
-
+    @Transactional
     @Override
     public String uploadProfilePicture(Long id, MultipartFile file) {
         Doctor doctor = doctorRepository.findById(id)
@@ -86,7 +87,7 @@ public class DoctorServiceImpl implements DoctorService {
 
         return filePath;
     }
-
+ @Transactional
     @Override
     public List<DoctorDTO> getAllDoctors() {
         return doctorRepository.findAll()

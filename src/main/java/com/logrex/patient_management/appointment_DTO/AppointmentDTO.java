@@ -1,5 +1,6 @@
 package com.logrex.patient_management.appointment_DTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.logrex.patient_management.appointment_enums.AppointmentStatus;
 import com.logrex.patient_management.appointment_enums.AppointmentType;
 import com.logrex.patient_management.doctorDTO.DoctorDTO;
@@ -22,6 +23,7 @@ public class AppointmentDTO {
     private String notes;
 
     private PatientDTO patient;
+
   private DoctorDTO doctor;
     public AppointmentDTO() {
     }

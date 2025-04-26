@@ -1,5 +1,8 @@
 package com.logrex.patient_management.patient_DTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.logrex.patient_management.doctorDTO.DoctorDTO;
+import com.logrex.patient_management.doctor_entity.Doctor;
 import com.logrex.patient_management.patient_enums.AdministrationRoute;
 import com.logrex.patient_management.patient_enums.PrescriptionStatus;
 import jakarta.validation.constraints.NotBlank;
@@ -43,7 +46,7 @@ public class PrescriptionDTO {
     private int refillLimit;
 
     @NotNull(message = "Generic allowed flag is required")
-    private Boolean isGenericAllowed;
+    private Boolean genericAllowed;
 
     @NotNull(message = "Pharmacy ID is required")
     private Long pharmacyId;
@@ -55,13 +58,14 @@ public class PrescriptionDTO {
 
     private List<String> interactionWarnings;
 
-
     private PatientDTO patient;
+
+    private Doctor doctor;
 
     public PrescriptionDTO() {
     }
 
-    public PrescriptionDTO(Long id, String medicationName, String dosage, String frequency, String duration, Date startDate, Date endDate, AdministrationRoute route, PrescriptionStatus status, int refillsRemaining, int refillLimit, Boolean isGenericAllowed, Long pharmacyId, String instructions, Boolean priorAuthorization, List<String> interactionWarnings, PatientDTO patient) {
+    public PrescriptionDTO(Long id, String medicationName, String dosage, String frequency, String duration, Date startDate, Date endDate, AdministrationRoute route, PrescriptionStatus status, int refillsRemaining, int refillLimit, Boolean genericAllowed, Long pharmacyId, String instructions, Boolean priorAuthorization, List<String> interactionWarnings, PatientDTO patient, Doctor doctor) {
         this.id = id;
         this.medicationName = medicationName;
         this.dosage = dosage;
@@ -73,12 +77,13 @@ public class PrescriptionDTO {
         this.status = status;
         this.refillsRemaining = refillsRemaining;
         this.refillLimit = refillLimit;
-        this.isGenericAllowed = isGenericAllowed;
+        this.genericAllowed = genericAllowed;
         this.pharmacyId = pharmacyId;
         this.instructions = instructions;
         this.priorAuthorization = priorAuthorization;
         this.interactionWarnings = interactionWarnings;
         this.patient = patient;
+        this.doctor = doctor;
     }
 
     public Long getId() {
@@ -170,11 +175,11 @@ public class PrescriptionDTO {
     }
 
     public Boolean getGenericAllowed() {
-        return isGenericAllowed;
+        return genericAllowed;
     }
 
     public void setGenericAllowed(Boolean genericAllowed) {
-        isGenericAllowed = genericAllowed;
+        this.genericAllowed = genericAllowed;
     }
 
     public Long getPharmacyId() {
@@ -215,5 +220,13 @@ public class PrescriptionDTO {
 
     public void setPatient(PatientDTO patient) {
         this.patient = patient;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
     }
 }
