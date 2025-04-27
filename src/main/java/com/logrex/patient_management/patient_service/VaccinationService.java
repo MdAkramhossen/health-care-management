@@ -1,20 +1,26 @@
 package com.logrex.patient_management.patient_service;
 
+import com.logrex.patient_management.patient_DTO.PatientDTO;
 import com.logrex.patient_management.patient_DTO.VaccinationRecordDTO;
 
 import java.util.List;
 
 public interface VaccinationService {
-    List<VaccinationRecordDTO> createcreateVaccination(List<VaccinationRecordDTO> vaccinationRecordDTO);
 
 
-    VaccinationRecordDTO addVaccinationRecordToPatient(VaccinationRecordDTO vaccinationRecordDTO);
+    VaccinationRecordDTO createVaccination(VaccinationRecordDTO vaccinationDTO);
 
-    List<VaccinationRecordDTO> getAllVaccinationRecordsByPatientId();
+    List<VaccinationRecordDTO> getAllVaccinations();
 
-    VaccinationRecordDTO updateVaccinationRecordForPatient(VaccinationRecordDTO vaccinationRecord, Long id);
+    VaccinationRecordDTO getVaccinationById(Long vaccinationId);
 
-    void deleteVaccinationRecordFromPatient(Long id);
+    VaccinationRecordDTO updateVaccination(Long vaccinationId, VaccinationRecordDTO vaccinationDTO);
 
+    void deleteVaccination(Long vaccinationId);
 
+    List<PatientDTO> getPatientsByVaccinationId(Long vaccinationId);
+
+    void addPatientToVaccination(Long vaccinationId, Long patientId);
+
+    void removePatientFromVaccination(Long vaccinationId, Long patientId);
 }

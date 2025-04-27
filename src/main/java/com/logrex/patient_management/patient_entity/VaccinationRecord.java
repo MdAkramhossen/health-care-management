@@ -31,6 +31,18 @@ public class VaccinationRecord {
         @ManyToMany(mappedBy = "vaccinationRecords")
         private List<Patient> patients;
 
+        public VaccinationRecord() {
+        }
+
+        public VaccinationRecord(Long id, String vaccineName, String dosageFormulation, String lotNumber, String administeringProvider, List<Patient> patients) {
+                this.id = id;
+                this.vaccineName = vaccineName;
+                this.dosageFormulation = dosageFormulation;
+                this.lotNumber = lotNumber;
+                this.administeringProvider = administeringProvider;
+                this.patients = patients;
+        }
+
         public Long getId() {
                 return id;
         }
@@ -46,8 +58,6 @@ public class VaccinationRecord {
         public void setVaccineName(String vaccineName) {
                 this.vaccineName = vaccineName;
         }
-
-
 
         public String getDosageFormulation() {
                 return dosageFormulation;
@@ -71,5 +81,13 @@ public class VaccinationRecord {
 
         public void setAdministeringProvider(String administeringProvider) {
                 this.administeringProvider = administeringProvider;
+        }
+
+        public List<Patient> getPatients() {
+                return patients;
+        }
+
+        public void setPatients(List<Patient> patients) {
+                this.patients = patients;
         }
 }

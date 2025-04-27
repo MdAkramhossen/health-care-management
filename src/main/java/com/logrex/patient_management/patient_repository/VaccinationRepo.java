@@ -10,5 +10,5 @@ import java.util.List;
 public interface VaccinationRepo  extends JpaRepository<VaccinationRecord,Long> {
 
 
-    List<VaccinationRecord> findAllByPatientId(Long id);
+
 }

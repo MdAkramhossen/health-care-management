@@ -87,4 +87,5 @@ public class VaccinationRecordDTO {
     public void setPatients(List<Patient> patients) {
         this.patients = patients;
     }
+
 }
