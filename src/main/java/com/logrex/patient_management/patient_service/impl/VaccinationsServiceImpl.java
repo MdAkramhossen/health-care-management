@@ -1,6 +1,9 @@
 package com.logrex.patient_management.patient_service.impl;
 
+import com.logrex.patient_management.exception.ResourceNotFoundException;
+import com.logrex.patient_management.patient_DTO.PatientDTO;
 import com.logrex.patient_management.patient_DTO.VaccinationRecordDTO;
+import com.logrex.patient_management.patient_entity.Patient;
 import com.logrex.patient_management.patient_entity.VaccinationRecord;
 import com.logrex.patient_management.patient_repository.PatientRepo;
 import com.logrex.patient_management.patient_repository.VaccinationRepo;
@@ -25,50 +28,75 @@ public class VaccinationsServiceImpl implements VaccinationService {
         this.modelMapper = modelMapper;
     }
 
-    @Transactional
+
     @Override
-    public List<VaccinationRecordDTO> createcreateVaccination(List<VaccinationRecordDTO> vaccinationRecordDTO) {
+    public VaccinationRecordDTO createVaccination(VaccinationRecordDTO vaccinationDTO) {
 
-        List<VaccinationRecord> vaccinationRecords= vaccinationRecordDTO.stream().map(s->modelMapper.map(s, VaccinationRecord.class)).collect(Collectors.toList());
-        System.out.println(vaccinationRecords.get(0).getVaccineName());
-        vaccinationRepo.saveAll(vaccinationRecords);
-
-        return vaccinationRecords.stream().map(s->modelMapper.map(s,VaccinationRecordDTO.class)).collect(Collectors.toList());
+        VaccinationRecord record = modelMapper.map(vaccinationDTO, VaccinationRecord.class);
+        VaccinationRecord savedRecord = vaccinationRepo.save(record);
+        return modelMapper.map(savedRecord, VaccinationRecordDTO.class);
     }
 
-//    @Transactional
-//    @Override
-//    public VaccinationRecordDTO addVaccinationRecordToPatient(VaccinationRecordDTO vaccinationRecordDTO) {
-//        VaccinationRecord vaccinationRecord= modelMapper.map(vaccinationRecordDTO, VaccinationRecord.class);
-//       // vaccinationRepo.save(vaccinationRecord);
-//        return modelMapper.map(vaccinationRecord, VaccinationRecordDTO.class);
-//    }
-//
-//    @Transactional
-//    @Override
-//    public List<VaccinationRecordDTO> getAllVaccinationRecordsByPatientId() {
-//
-//          Long id=1L;
-//          Patient patient=patientRepo.findById(id).orElseThrow(()-> new ResourceNotFoundException("get","this user are not exist with id",id));
-//            List<VaccinationRecord> vaccinationRecords= vaccinationRepo.findAllByPatientId(patient.getId());
-//        return vaccinationRecords.stream().map(vaccin->modelMapper.map(vaccin,VaccinationRecordDTO.class)).collect(Collectors.toList());
-//    }
-//     @Transactional
-//    @Override
-//    public VaccinationRecordDTO updateVaccinationRecordForPatient(VaccinationRecordDTO vaccinationRecord, Long id) {
-//
-//        VaccinationRecord updateVaccinationRecord=vaccinationRepo.findById(id).orElseThrow(()-> new ResourceNotFoundException("get","this user are not exist with id",id));
-//
-//        return modelMapper.map(updateVaccinationRecord, VaccinationRecordDTO.class);
-//    }
-//
-//    @Transactional
-//    @Override
-//    public void deleteVaccinationRecordFromPatient(Long id) {
-//        VaccinationRecord updateVaccinationRecord=vaccinationRepo.findById(id).orElseThrow(()-> new ResourceNotFoundException("get","this user are not exist with id",id));
-//        vaccinationRepo.delete(updateVaccinationRecord);
-//
-//    }
+    @Override
+    public List<VaccinationRecordDTO> getAllVaccinations() {
+        List<VaccinationRecord> records = vaccinationRepo.findAll();
 
+        return records.stream().map((record)-> modelMapper.map(record, VaccinationRecordDTO.class)).collect(Collectors.toList());
+    }
 
+    @Override
+    public VaccinationRecordDTO getVaccinationById(Long vaccinationId) {
+        return modelMapper.map(vaccinationRepo.findById(vaccinationId), VaccinationRecordDTO.class);
+    }
+
+    @Override
+    public VaccinationRecordDTO updateVaccination(Long vaccinationId, VaccinationRecordDTO vaccinationDTO) {
+        VaccinationRecord record = vaccinationRepo.findById(vaccinationId).orElseThrow(()-> new ResourceNotFoundException("getVaccinationById", "id", vaccinationId));
+        record.setVaccineName(vaccinationDTO.getVaccineName());
+        record.setAdministeringProvider(vaccinationDTO.getAdministeringProvider());
+        record.setDosageFormulation(vaccinationDTO.getDosageFormulation());
+        record.setLotNumber(vaccinationDTO.getLotNumber());
+        vaccinationRepo.save(record);
+        return modelMapper.map(record, VaccinationRecordDTO.class);
+    }
+
+    @Override
+    public void deleteVaccination(Long vaccinationId) {
+        VaccinationRecord record = vaccinationRepo.findById(vaccinationId).orElseThrow(()-> new ResourceNotFoundException("getVaccinationById", "id", vaccinationId));
+        vaccinationRepo.delete(record);
+
+    }
+    @Transactional(readOnly = true)
+    @Override
+    public List<PatientDTO> getPatientsByVaccinationId(Long vaccinationId) {
+        VaccinationRecord record = vaccinationRepo.findById(vaccinationId)
+                .orElseThrow(() -> new ResourceNotFoundException("getVaccinationById", "id", vaccinationId));
+        List<Patient> patients = record.getPatients();
+        return patients.stream()
+                .map(patient -> modelMapper.map(patient, PatientDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    @Override
+    public void addPatientToVaccination(Long vaccinationId, Long patientId) {
+        VaccinationRecord record = vaccinationRepo.findById(vaccinationId).orElseThrow(()-> new ResourceNotFoundException("getVaccinationById", "id", vaccinationId));
+        Patient patient= patientRepo.findById(patientId).orElseThrow(()-> new ResourceNotFoundException("getPatientById", "id", patientId));
+
+       record.getPatients().add(patient);
+      patient.getVaccinationRecords().add(record);
+        vaccinationRepo.save(record);
+        patientRepo.save(patient);
+    }
+    @Transactional
+    @Override
+    public void removePatientFromVaccination(Long vaccinationId, Long patientId) {
+
+        VaccinationRecord record = vaccinationRepo.findById(vaccinationId).orElseThrow(()-> new ResourceNotFoundException("getVaccinationById", "id", vaccinationId));
+        Patient patient= patientRepo.findById(patientId).orElseThrow(()-> new ResourceNotFoundException("getPatientById", "id", patientId));
+        record.getPatients().remove(patient);
+        patient.getVaccinationRecords().remove(record);
+        vaccinationRepo.save(record);
+        patientRepo.save(patient);
+    }
 }
