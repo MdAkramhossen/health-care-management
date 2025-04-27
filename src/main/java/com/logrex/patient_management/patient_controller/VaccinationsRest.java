@@ -26,28 +26,28 @@ public class VaccinationsRest {
         return new ResponseEntity<>(createVaccinationRecord, HttpStatus.CREATED);
     }
 
-// @PostMapping
-//    public ResponseEntity<VaccinationRecordDTO> addVaccinationRecordToPatient(@Valid @RequestBody VaccinationRecordDTO vaccinationRecordDTO) {
-//
-//     VaccinationRecordDTO createVaccinationRecord= vaccinationService.addVaccinationRecordToPatient(vaccinationRecordDTO);
-//     return new ResponseEntity<>(createVaccinationRecord, HttpStatus.CREATED);
-//    }
-//    @GetMapping
-//    public  ResponseEntity<List<VaccinationRecordDTO>> getAllVaccinationRecordsByPatientId() {
-//        List<VaccinationRecordDTO> getAllRecord= vaccinationService.getAllVaccinationRecordsByPatientId();
-//        return new ResponseEntity<>(getAllRecord,HttpStatus.OK);
-//    }
-//    @PutMapping("/{id}")
-//    public  ResponseEntity<VaccinationRecordDTO> updateVaccinationRecordForPatient(@Valid @RequestBody VaccinationRecordDTO vaccinationRecord, @PathVariable Long id){
-//
-//        VaccinationRecordDTO updateVaccinationRecord=vaccinationService.updateVaccinationRecordForPatient(vaccinationRecord,id);
-//        return new ResponseEntity<>(updateVaccinationRecord, HttpStatus.OK);
-//    }
-//
-//    @DeleteMapping
-//    public  ResponseEntity<String> deleteVaccinationRecordFromPatient(@PathVariable Long id){
-//        vaccinationService.deleteVaccinationRecordFromPatient(id);
-//        return new ResponseEntity<>("Vaccination record deleted", HttpStatus.OK);
-//    }
+ @PostMapping
+    public ResponseEntity<VaccinationRecordDTO> addVaccinationRecordToPatient(@Valid @RequestBody VaccinationRecordDTO vaccinationRecordDTO) {
+
+     VaccinationRecordDTO createVaccinationRecord= vaccinationService.addVaccinationRecordToPatient(vaccinationRecordDTO);
+     return new ResponseEntity<>(createVaccinationRecord, HttpStatus.CREATED);
+    }
+    @GetMapping
+    public  ResponseEntity<List<VaccinationRecordDTO>> getAllVaccinationRecordsByPatientId() {
+        List<VaccinationRecordDTO> getAllRecord= vaccinationService.getAllVaccinationRecordsByPatientId();
+        return new ResponseEntity<>(getAllRecord,HttpStatus.OK);
+    }
+    @PutMapping("/{id}")
+    public  ResponseEntity<VaccinationRecordDTO> updateVaccinationRecordForPatient(@Valid @RequestBody VaccinationRecordDTO vaccinationRecord, @PathVariable Long id){
+
+        VaccinationRecordDTO updateVaccinationRecord=vaccinationService.updateVaccinationRecordForPatient(vaccinationRecord,id);
+        return new ResponseEntity<>(updateVaccinationRecord, HttpStatus.OK);
+    }
+
+    @DeleteMapping
+    public  ResponseEntity<String> deleteVaccinationRecordFromPatient(@PathVariable Long id){
+        vaccinationService.deleteVaccinationRecordFromPatient(id);
+        return new ResponseEntity<>("Vaccination record deleted", HttpStatus.OK);
+    }
 
 }
